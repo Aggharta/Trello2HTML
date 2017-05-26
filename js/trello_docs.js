@@ -13,7 +13,7 @@ $(document).ready(function(){
         success: initDoc
     };
 	if(typeof Trello==="undefined") {
-		$("#view").html("<h1>Connection to Trello API is broken, Please <a href='javascript:window.reload();'>Reload</a></h1>");
+		$("#view").html("<h1>Connection to Trello API is broken, please <a href='javascript:window.reload();'>try to reload</a></h1>");
 	}
 
 	Trello.authorize(_.extend({}, defaultOptions, {// Authentication
@@ -81,7 +81,7 @@ var listBoards=function(){
 	}
 
 	$("#view").empty();
-	var intro="<div class='list info-list'><h2>About Trello2HTML</h2><p>This is an web app to export Trello Boards to HTML, our team uses this to record our progress every month. We do not track or record you any way, and Trello access is read-only. You can host this on any static server. Google Chrome is tested and supported, your mileage may vary with other browsers(Firefox has a bug when downloading).</p><ul><a href='#4d5ea62fd76aa1136000000c'><li>Demo using Trello Development</li></a><a href='trello.zip'><li>Download zipped source</li></a><a href='https://trello.com/board/trello2html/4fb10d0e312c2b226f1eb4a0'><li>Feature Requests and Bug Reports</li></a><a href='http://tianshuohu.diandian.com/post/2012-06-08/Trello-Export-as-html'><li>Blog Article (Chinese/English)</li></a></ul></div>";
+    var intro = "<div class='list info-list'><h2>About Trello2HTML</h2><p>This is a web application designed to export Trello Boards to a page-view list for easy overview and printing.</p><p>Use it to get a glimpse of all the details in your card in one single view, or print out the complete current information of your entire board, for personal reference or as preperation for a team meeting.</p><p>No information of you is being stored by this application.This application does not track you in any way, and cannot modify your Trello data.</p><p>You can host this application yourself on any static server. To download, please visit the project page on GitHub. If you encounter any issues, feel free to inform me there as well.</p > <ul><a href='#4d5ea62fd76aa1136000000c'><li>Demo using the public Trello Development board</li></a><a href='https://github.com/reischlfranz/Trello2HTML' target='_blank'><li>Project page on GitHub</li></a></ul><p>This application is based on <a href='https://github.com/tianshuo/Trello'>Trello2HTML by Tianshuo</a>.</p></div > ";
 	var template="<h1>{{fullName}} ({{username}})</h1><div id='boardlist'>"+intro+"{{#orgBoards}}<div class='list'><h2>{{name}}</h2><ul>{{#boards}}<a href='#{{id}}' ><li>{{name}}</li></a>{{/boards}}</ul></div>{{/orgBoards}}</div>";
 	var str=Mustache.render(template,myself);
 	$("#view").html(str);

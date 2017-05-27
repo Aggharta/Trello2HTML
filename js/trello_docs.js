@@ -13,7 +13,7 @@ $(document).ready(function(){
         success: initDoc
     };
 	if(typeof Trello==="undefined") {
-		$("#view").html("<h1>Connection to Trello API is broken, Please <a href='javascript:window.reload();'>Reload</a></h1>");
+		$("#view").html("<h1>Connection to Trello API is broken, please <a href='javascript:window.reload();'>try to reload</a></h1>");
 	}
 
 	Trello.authorize(_.extend({}, defaultOptions, {// Authentication
@@ -81,7 +81,7 @@ var listBoards=function(){
 	}
 
 	$("#view").empty();
-	var intro="<div class='list info-list'><h2>About Trello2HTML</h2><p>This is an web app to export Trello Boards to HTML, our team uses this to record our progress every month. We do not track or record you any way, and Trello access is read-only. You can host this on any static server. Google Chrome is tested and supported, your mileage may vary with other browsers(Firefox has a bug when downloading).</p><ul><a href='#4d5ea62fd76aa1136000000c'><li>Demo using Trello Development</li></a><a href='trello.zip'><li>Download zipped source</li></a><a href='https://trello.com/board/trello2html/4fb10d0e312c2b226f1eb4a0'><li>Feature Requests and Bug Reports</li></a><a href='http://tianshuohu.diandian.com/post/2012-06-08/Trello-Export-as-html'><li>Blog Article (Chinese/English)</li></a></ul></div>";
+    var intro = "<div class='list info-list'><h2>About Trello2HTML</h2><p>This is a web application designed to export Trello Boards to a page-view list for easy overview and printing.</p><p>Use it to get a glimpse of all the details in your card in one single view, or print out the complete current information of your entire board, for personal reference or as preperation for a team meeting.</p><p>No information of you is being stored by this application.This application does not track you in any way, and cannot modify your Trello data.</p><p>You can host this application yourself on any static server. To download, please visit the project page on GitHub. If you encounter any issues, feel free to inform me there as well.</p > <ul><a href='#4d5ea62fd76aa1136000000c'><li>Demo using the public Trello Development board</li></a><a href='https://github.com/reischlfranz/Trello2HTML' target='_blank'><li>Project page on GitHub</li></a></ul><p>This application is based on <a href='https://github.com/tianshuo/Trello'>Trello2HTML by Tianshuo</a>.</p></div > ";
 	var template="<h1>{{fullName}} ({{username}})</h1><div id='boardlist'>"+intro+"{{#orgBoards}}<div class='list'><h2>{{name}}</h2><ul>{{#boards}}<a href='#{{id}}' ><li>{{name}}</li></a>{{/boards}}</ul></div>{{/orgBoards}}</div>";
 	var str=Mustache.render(template,myself);
 	$("#view").html(str);
@@ -116,7 +116,7 @@ var getBoard=function(board){
 				}else item.complete=false;
 			});
 			list.done=(list.doneNumber==list.totalNumber);
-			var template="<div><b>{{name}}</b> <span class='show right {{#done}}green{{/done}}'>{{doneNumber}}/{{totalNumber}}</span></div><ul>{{#checkItems}}<li>{{#complete}}<del>{{/complete}}{{name}}{{#complete}}</del>{{/complete}}</li>{{/checkItems}}</ul>";
+            var template ="<div><b>{{name}}</b> <span class='show right {{#done}}green{{/done}}'>{{doneNumber}}/{{totalNumber}}</span></div><ul>{{#checkItems}}<li class='checklistitem{{#complete}} completed{{/complete}}'>{{name}}</li>{{/checkItems}}</ul>";
 			var str=Mustache.render(template,list);
 
 			card.checklist=card.checklist||[]; //Make array
@@ -164,8 +164,20 @@ var getBoard=function(board){
 	};		
 	//
 	// Start Rendering
-	board.displayColumns=["Name","Description","Due Date","Checklists","Members","Labels","Votes"];
-	var htmltemplate="<h1><span id='download'></span><span id='trello-link'></span><span id='printme'></span>{{name}} <span class='right'>{{#formatDate}}now{{/formatDate}}</span></h1>{{#lists}}<table><caption><h2>{{name}} <span class='show right'>{{size}}</span></h2></caption>{{#show}}<col width='20%' /><col width='30%' /><col width='5%' /><col width='25%' /><col width='5%' /><col width='10%' /><col width='5%' /><thead><tr>{{#displayColumns}}<th scope='col'>{{.}}</th>{{/displayColumns}}</tr></thead>{{/show}}<tbody>{{#cards}}<tr><td scope='row'><b>{{name}}</b></td><td><div class='comments'>{{#formatComments}}{{desc}}{{/formatComments}}</div></td><td>{{#formatDate}}{{due}}{{/formatDate}}</td><td>{{#checklist}}<div>{{{.}}}</div>{{/checklist}}</td><td>{{#members}}<div>{{.}}</div>{{/members}}</td><td>{{#labels}}<div class='show {{color}}'>{{name}}&nbsp;</div>{{/labels}}</td><td>{{badges.votes}}</td></tr>{{/cards}}</tbody></table>{{/lists}}";
+    board.displayColumns = [
+        { "name": "Name", "class": "col_name" },
+        { "name": "Description", "class": "col_descr" },
+        { "name": "Due Date", "class": "col_due" },
+        { "name": "Checklists", "class": "col_checklists" },
+        { "name": "Members", "class": "col_members" },
+        { "name": "Labels", "class": "col_labels" },
+        { "name": "Votes", "class": "col_votes" }
+    ];
+    var htmltemplate = "<h1><span id='download'></span><span id='trello-link'></span><span id='printme'></span>{{name}} <span class='right'>{{#formatDate}}now{{/formatDate}}</span></h1>" +
+        "{{#lists}}<table class='list-table' id='listID_{{id}}'><caption><h2>{{name}}<span class='show right'>{{size}}</span></h2></caption>" +
+        "{{#show}}<col width='20%' class='col_name' /><col width='30%' class='col_descr' /><col width='5%' class='col_due' /><col width='25%' class='col_checklists' /><col width='5%' class='col_members' /><col width='10%' class='col_labels' /><col width='5%' class='col_votes'/><thead><tr>{{#displayColumns}}<th scope='col' class={{class}}>{{name}}</th>{{/displayColumns}}</tr></thead>{{/show}}<tbody>" +
+            "{{#cards}}<tr><td scope='row' class='col_name'><b>{{name}}</b></td><td class='col_descr'><div class='comments'>{{#formatComments}}{{desc}}{{/formatComments}}</div></td><td class='col_due'>{{#formatDate}}{{due}}{{/formatDate}}</td><td class='col_checklists'>{{#checklist}}<div>{{{.}}}</div>{{/checklist}}</td><td class='col_members'>{{#members}}<div>{{.}}</div>{{/members}}</td><td class='col_labels'>{{#labels}}<div class='show {{color}}'>{{name}}&nbsp;</div>{{/labels}}</td><td class='col_votes'>{{badges.votes}}</td></tr>{{/cards}}"
+        + "</tbody></table>{{/lists}}";
 	var csvtemplate="";//TODO
 
 	var str=Mustache.render(htmltemplate,board);

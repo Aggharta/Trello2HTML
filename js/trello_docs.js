@@ -164,8 +164,20 @@ var getBoard=function(board){
 	};		
 	//
 	// Start Rendering
-	board.displayColumns=["Name","Description","Due Date","Checklists","Members","Labels","Votes"];
-	var htmltemplate="<h1><span id='download'></span><span id='trello-link'></span><span id='printme'></span>{{name}} <span class='right'>{{#formatDate}}now{{/formatDate}}</span></h1>{{#lists}}<table><caption><h2>{{name}} <span class='show right'>{{size}}</span></h2></caption>{{#show}}<col width='20%' /><col width='30%' /><col width='5%' /><col width='25%' /><col width='5%' /><col width='10%' /><col width='5%' /><thead><tr>{{#displayColumns}}<th scope='col'>{{.}}</th>{{/displayColumns}}</tr></thead>{{/show}}<tbody>{{#cards}}<tr><td scope='row'><b>{{name}}</b></td><td><div class='comments'>{{#formatComments}}{{desc}}{{/formatComments}}</div></td><td>{{#formatDate}}{{due}}{{/formatDate}}</td><td>{{#checklist}}<div>{{{.}}}</div>{{/checklist}}</td><td>{{#members}}<div>{{.}}</div>{{/members}}</td><td>{{#labels}}<div class='show {{color}}'>{{name}}&nbsp;</div>{{/labels}}</td><td>{{badges.votes}}</td></tr>{{/cards}}</tbody></table>{{/lists}}";
+    board.displayColumns = [
+        { "name": "Name", "class": "col_name" },
+        { "name": "Description", "class": "col_descr" },
+        { "name": "Due Date", "class": "col_due" },
+        { "name": "Checklists", "class": "col_checklists" },
+        { "name": "Members", "class": "col_members" },
+        { "name": "Labels", "class": "col_labels" },
+        { "name": "Votes", "class": "col_votes" }
+    ];
+    var htmltemplate = "<h1><span id='download'></span><span id='trello-link'></span><span id='printme'></span>{{name}} <span class='right'>{{#formatDate}}now{{/formatDate}}</span></h1>" +
+        "{{#lists}}<table class='list-table' id='listID_{{id}}'><caption><h2>{{name}}<span class='show right'>{{size}}</span></h2></caption>" +
+        "{{#show}}<col width='20%' class='col_name' /><col width='30%' class='col_descr' /><col width='5%' class='col_due' /><col width='25%' class='col_checklists' /><col width='5%' class='col_members' /><col width='10%' class='col_labels' /><col width='5%' class='col_votes'/><thead><tr>{{#displayColumns}}<th scope='col' class={{class}}>{{name}}</th>{{/displayColumns}}</tr></thead>{{/show}}<tbody>" +
+            "{{#cards}}<tr><td scope='row' class='col_name'><b>{{name}}</b></td><td class='col_descr'><div class='comments'>{{#formatComments}}{{desc}}{{/formatComments}}</div></td><td class='col_due'>{{#formatDate}}{{due}}{{/formatDate}}</td><td class='col_checklists'>{{#checklist}}<div>{{{.}}}</div>{{/checklist}}</td><td class='col_members'>{{#members}}<div>{{.}}</div>{{/members}}</td><td class='col_labels'>{{#labels}}<div class='show {{color}}'>{{name}}&nbsp;</div>{{/labels}}</td><td class='col_votes'>{{badges.votes}}</td></tr>{{/cards}}"
+        + "</tbody></table>{{/lists}}";
 	var csvtemplate="";//TODO
 
 	var str=Mustache.render(htmltemplate,board);

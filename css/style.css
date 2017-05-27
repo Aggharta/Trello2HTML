@@ -267,3 +267,28 @@ h1 {
 .show {
     -webkit-print-color-adjust: exact;
 }
+
+/* Deactivate colums: Set display:none */
+
+.col_name {
+    display: normal
+}
+.col_descr {
+    display: normal
+}
+.col_due {
+    display: normal
+}
+.col_checklists {
+    display: normal
+}
+.col_members {
+    display: normal
+}
+.col_labels {
+    display: normal
+}
+.col_votes {
+    display: normal
+}
+

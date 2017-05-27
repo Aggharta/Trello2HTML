@@ -1,4 +1,8 @@
-﻿.show {
+﻿body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.show {
     background-color: #777;
     color: white;
     padding: 4px;
@@ -56,6 +60,10 @@
     padding: -2px;
     background-color: #8c28bd;
     margin-bottom: 3px;
+}
+
+li.checklistitem {
+    font-size: 0.8em;
 }
 
 li.completed {
@@ -258,7 +266,4 @@ h1 {
 
 .show {
     -webkit-print-color-adjust: exact;
-}
-
-body {
 }

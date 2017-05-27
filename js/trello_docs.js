@@ -116,7 +116,7 @@ var getBoard=function(board){
 				}else item.complete=false;
 			});
 			list.done=(list.doneNumber==list.totalNumber);
-			var template="<div><b>{{name}}</b> <span class='show right {{#done}}green{{/done}}'>{{doneNumber}}/{{totalNumber}}</span></div><ul>{{#checkItems}}<li>{{#complete}}<del>{{/complete}}{{name}}{{#complete}}</del>{{/complete}}</li>{{/checkItems}}</ul>";
+            var template ="<div><b>{{name}}</b> <span class='show right {{#done}}green{{/done}}'>{{doneNumber}}/{{totalNumber}}</span></div><ul>{{#checkItems}}<li class='checklistitem{{#complete}} completed{{/complete}}'>{{name}}</li>{{/checkItems}}</ul>";
 			var str=Mustache.render(template,list);
 
 			card.checklist=card.checklist||[]; //Make array

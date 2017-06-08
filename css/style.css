@@ -90,6 +90,9 @@ table {
     border-bottom-left-radius: 10px;
     box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
 }
+table.noprint{
+	background: rgb(209,175,175);
+}
 
 td {
     vertical-align: top;
@@ -262,6 +265,11 @@ h1 {
     th, td {
         border: #999 solid 1px;
     }
+	
+	.noprint{
+		display:none;
+	}
+	
 }
 
 .show {
